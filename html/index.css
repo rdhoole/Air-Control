@@ -1,0 +1,105 @@
+body {
+    background-color: black;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+h1 {
+    color: white;
+    text-align: center;
+}
+
+h2 {
+    color: white;
+    text-align: left;
+}
+
+h3 {
+    color: white;
+    text-align: left;
+}
+
+p {
+    color: white;
+    font-family: verdana;
+    font-size: 20px;
+}
+
+table {
+    border: 3px solid #ff8800;
+    border-radius: 15px;
+    padding: 10px
+}
+
+td {
+    border: none;
+}
+
+th {
+    border: none;
+}
+
+a {
+    color: black;
+    font-size: 20px;
+}
+
+a:link {
+    text-decoration: none;
+}
+
+a:visited {
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+a:active {
+    text-decoration: none;
+}
+
+label {
+    color: white;
+}
+
+#nav {
+    border: none;
+    border-radius: 25px;
+    color: black;
+    background-color: #ffb359;
+    text-align: left;
+}
+
+#navbutton {
+    border: none;
+    border-radius: 10px;
+    color: black;
+    background-color: #ff8800;
+    text-align: left;
+}
+
+#info {
+    border: none;
+    border-radius: 5px;
+    color: black;
+    background-color: #ffc989;
+    text-align: left;
+}
+
+#status {
+    border: none;
+    border-radius: 5px;
+    color: black;
+    background-color: #ffffff;
+    text-align: left;
+}
+
+#togglebutton {
+    border: none;
+    border-radius: 20px;
+    color: black;
+    background-color: #ff8800;
+    text-align: left;
+    font-size: 40px;
+}

@@ -1,0 +1,15 @@
+
+	Apache uses mod_python for backend communication for our server.
+
+	Notes on set up:
+		
+	-- mod_python installed via: apt install libapache2-mod-python
+	-- mod_python was then configured on this system (Debian) like
+	   so:
+		Edited: /etc/apache2/sites-available/000-default.conf
+		Note: In this file we added the proper configure settings
+		      to allow apache to handle requests to *.psp and 
+		      *.html files. These were an xml <Directory></> 
+		      directive that can be observed in the file, or 
+		      found on a site showing how to setup 
+		      "The Publisher Handler".

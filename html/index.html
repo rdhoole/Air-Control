@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" type="text/css" href="index.css"/>
+</head>
+<%-- handler code --%>
+<%
+import time, socket
+from urlparse import parse_qs
+from mod_python import util
+	
+page = "home"
+ac_on = 90
+ac_off = 88
+auto_ac = False
+checked = ""
+
+def requesthandler(req, vname):
+	try:
+		params = parse_qs(req.args)
+		return params.get(vname, [None])[0]
+	except:
+		return ""
+
+	
+def runCommand(command):
+	try:
+		s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+	except socket.error as err:
+		return "<font color=\"red\">Error connecting to backend server!</font>"
+
+	port = 1212
+	ip = "0.0.0.0"
+	
+	s.connect((ip,port))
+	s.send(command)
+	return str(s.recv(2048))
+	
+def checkTemp(name):
+	if (name == "unit1"):
+		return "<font color=\"green\">" + runCommand("GET_AVERAGE_TEMP") + "</font>"
+	else:
+		return "<font color=\"red\">Offline!</font>"
+
+def loadSettings():
+	global ac_on, ac_off, auto_ac, checked
+	try:
+		settings = runCommand("GET_SETTINGS")
+		ac_on = settings.split(":")[0]
+		ac_off = settings.split(":")[1]
+		auto_ac = settings.split(":")[2]
+		checked = "checked" if auto_ac == "True" else ""
+	except:
+		print("<font color=\"read\">Offline!</font>")
+
+def saveSettings(_ac_on, _ac_off, _auto_ac):
+	runCommand("SET_SETTINGS " + str(_ac_on) + " " + str(_ac_off) + " " + str(_auto_ac))
+
+%>
+<body>
+<br/>
+<br/>
+<p>System time is <%=time.strftime("%H:%M")%></p>
+<div>
+	<table style="width:100%" border="1">
+		<tr>
+			<th><h1>Navigation</h1></th>
+			<!-- change the title of row 2 -->
+<%
+page = requesthandler(req, "page")
+if (page == "aircontrol"):
+%>
+<th><h1><center>Air Control</center></h1></th>
+<%
+elif (page == "settings"):
+%>
+<th><h1><center>Settings</center></h1></th>
+<%
+else:
+%>
+<th><h1><center>Home</center></h1></th>
+<% 
+%>
+		</tr>
+		<tr>
+			<td width="25px"><h3><a id="navbutton" href="/index.html?page=home">Home</a></h3>
+			<h3><a id="navbutton" href="/index.html?page=aircontrol">Air Control</a></h3>
+			</td>
+			<td>
+<!-- Webpage Content -->
+<% 
+page = requesthandler(req, "page")
+if (page == "home" or page == ""):
+%>
+<p>Control your AC unit's and other devices</p>
+<%
+if (page == "aircontrol"):
+	loadSettings()
+%>
+<p>Inside Temperature: <%=checkTemp("unit1")%></p>
+
+			</td>
+</tr>
+<tr>
+	<td>
+	</td>
+	<td>
+		<h2>Controls:</h2>
+		<a id="togglebutton" href="/index.html?page=aircontrol&control=tfan">Toggle Fan</a></br>
+		<a id="togglebutton" href="/index.html?page=aircontrol&control=tac">Toggle AC</a></br>
+		<a id="togglebutton" href="/index.html?page=aircontrol&control=actuatorON">Actuator On</a></br>
+		<a id="togglebutton" href="/index.html?page=aircontrol&control=actuatorOFF">Actuator Off</a>
+	</td>
+</tr>
+<tr>
+	<td>
+	</td>
+	<td>
+		<h2>Settings:</h2>
+		<p>Turn AC on at: <%=ac_on%></p>
+		<p>Turn AC off at: <%=ac_off%></p>
+		<p>Auto: <%=auto_ac%></p>
+		<a id="navbutton" href="/index.html?page=settings">Change Settings</a>
+<%
+page = requesthandler(req, "page")
+if (page == "settings"):
+	loadSettings()
+%>
+		<form value="form" action="/index.html?page=settings&action=save" method="post">
+			<label>AC on at:</label>
+			<input type="text" value=<%=ac_on%> name="ac_on_"/></br>
+			<label>AC off at:</label>
+			<input type="text" value=<%=ac_off%> name="ac_off_"/></br>
+			<label>Auto: </label>
+			<input type="checkbox" value="True" name="auto_ac_" <%=checked%>/>
+			<input type="submit" value="Save"/>
+			<input type="reset"/>
+		</form>
+	
+<%
+save = requesthandler(req, "action")
+if (save == "save"):
+	settings = req.form
+	ac_on = settings['ac_on_']
+	ac_off = settings['ac_off_']
+	try:
+		auto_ac = settings['auto_ac_']
+	except KeyError:
+		auto_ac = False
+	saveSettings(ac_on, ac_off, auto_ac)
+	util.redirect(req, '/index.html?page=aircontrol')
+
+%>
+		
+	</td>
+</tr>
+	</table>
+</div>
+</body>
+</html>
+<%
+page = requesthandler(req, "control")
+if (page == "tfan"):
+	runCommand("TOGGLE_FAN")
+if (page == "tac"):
+	runCommand("TOGGLE_AC")
+	util.redirect(req, '/index.html?page=aircontrol')
+if (page == "actuatorON"):
+	runCommand("ACTUATOR_ON")
+if (page == "actuatorOFF"):
+	runCommand("ACTUATOR_OFF")
+%>
