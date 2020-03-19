@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# Ryan Hoole
 
 # Control our actuator
 
@@ -33,19 +34,19 @@ def actuator_on():
     GPIO.output(actuator, GPIO.HIGH)
 
 def actuator_off():
-    if v:    
+    if v:
         print("turning actuator off")
     # setup pin for output
     GPIO.setup(actuator, GPIO.OUT)
     # set the pin low
-    GPIO.output(actuator, GPIO.LOW)    
+    GPIO.output(actuator, GPIO.LOW)
 
 def actuator_status():
     status = "status: "
     # setup pin for input
     GPIO.setup(feedback, GPIO.IN)
     if GPIO.input(feedback):
-        if v:        
+        if v:
             print(status+"off")
         else:
             print("off")
@@ -59,7 +60,7 @@ def actuator_status():
 # handle arguments
 if args.option:
     opt = args.option
-    
+
     if (opt == "on"):
         actuator_on()
     elif (opt == "off"):

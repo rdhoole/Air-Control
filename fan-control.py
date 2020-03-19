@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# Ryan Hoole
 
 # Control our fan
 
@@ -47,7 +48,7 @@ def fan_off():
         pass
         #print "checking if compressor is on"
     if not is_compressor_on():
-        if v:    
+        if v:
             print("turning fan off")
         # setup pin for output
         GPIO.setup(fan, GPIO.OUT)
@@ -57,14 +58,14 @@ def fan_off():
         if v:
             print("NOT turning fan off, compressor on!")
         else:
-            print("compressor on")    
+            print("compressor on")
 
 def fan_status():
     status = "status: "
     # setup pin for input
     GPIO.setup(feedback, GPIO.IN)
     if GPIO.input(feedback):
-        if v:        
+        if v:
             print(status+"off")
         else:
             print("off")
@@ -78,7 +79,7 @@ def fan_status():
 # handle arguments
 if args.option:
     opt = args.option
-    
+
     if (opt == "on"):
         fan_on()
     elif (opt == "off"):

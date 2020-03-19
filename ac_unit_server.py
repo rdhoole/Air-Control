@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# Ryan Hoole
 
 #TODO: FIX GET_AVERAGE_TEMP TO PROPERLY CREATE STRING FOR COMMAND
 

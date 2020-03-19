@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# Ryan Hoole
 
 # Control our compressor
 
@@ -57,7 +58,7 @@ def compressor_off():
     # setup pin for output
     GPIO.setup(compressor, GPIO.OUT)
     # set the pin low
-    GPIO.output(compressor, GPIO.LOW)    
+    GPIO.output(compressor, GPIO.LOW)
 
 def compressor_status():
     status = "status: "
@@ -78,7 +79,7 @@ def compressor_status():
 # handle arguments
 if args.option:
     opt = args.option
-    
+
     if (opt == "on"):
         compressor_on()
     elif (opt == "off"):
