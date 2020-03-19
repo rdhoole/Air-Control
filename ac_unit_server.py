@@ -9,10 +9,10 @@ from threading import Thread
 MAXDATA = 2048
 COMPUTERS = ["pi@0.0.0.0"]
 
-compressor	    = False
+Compressor      = False
 fan             = False
 fan_toggle      = False
-auto_ac	        = False
+auto_ac         = False
 
 ac_on  = 85
 ac_off = 80
