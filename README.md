@@ -13,7 +13,7 @@ These programs have some requirements before running:
     - `apt install libapache2-mod-python` (for debian systems)
       - (also requires configuration, which notes are here)
 4. `ac_unit_server.py` uses ssh to send commands to computers listed in COMPUTERS, so an SSH server on these computers will need to be installed. These computer will **need** no password authentication set up to work properly.
-5. **Have relays, MCP3008 wired properly!** (add content later)
+5. **Have relays, MCP3008 wired properly**
 6. (Optional) This is currently being used as a simple automation system for a workshop, and as so there is no networking. For this case, the (Master) Raspberry PI is setup with a WiFi antenna and configured as an access point, with the capability of other (Slave) wireless devices connecting to its network.
 
 ### File System Hierarchy
